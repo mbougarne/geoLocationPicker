@@ -1,0 +1,9 @@
+node_modules
+dist
+build
+.vscode
+.prettierrc.json
+*-lock.yaml
+test-results
+*.config.js
+*.config.ts
