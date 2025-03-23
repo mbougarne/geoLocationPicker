@@ -1,9 +1,11 @@
-import { Button } from 'geo-location-picker';
+import { GeoLocationPicker } from 'geo-location-picker';
+
+import 'geo-location-picker/dist/src/index.css'
 
 function App() {
   return (
     <>
-      <Button label="Click Me" className='hover:cursor-pointer bg-blue-400' />
+      <GeoLocationPicker />
     </>
   )
 }

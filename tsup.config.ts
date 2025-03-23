@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup';
+import cssModulesPlugin from 'esbuild-css-modules-plugin';  
 
 export default defineConfig({
   entry: ["src/index.tsx"],
@@ -8,5 +9,5 @@ export default defineConfig({
   minify: true,
   sourcemap: true,
   clean: true,
-  esbuildPlugins: [],
+  esbuildPlugins: [cssModulesPlugin()],
 });
