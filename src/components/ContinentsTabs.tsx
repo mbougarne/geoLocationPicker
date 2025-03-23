@@ -15,13 +15,13 @@ export const ContinentsTabs: React.FC<Props> = ({
   const totalCountries = getTotalCountriesPerContinent();
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 justify-center self-center">
       {['All', ...Object.keys(data)].map((continent) => (
         <button
           key={continent}
-          className={`px-4 py-2 border rounded-full hover:cursor-pointer border-transparent ${
+          className={`px-2 py-2 rounded-full hover:cursor-pointer text-sm ${
             activeTab === continent
-              ? 'bg-blue-300 text-white'
+              ? 'bg-violet-500 text-white'
               : 'bg-gray-50 hover:bg-gray-100'
           }`}
           onClick={() => setActiveTab(continent)}

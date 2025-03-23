@@ -45,14 +45,32 @@ export const GeoLocationPicker: FC = () => {
     setSelectedCountries((prev) => {
       const newSelected = { ...prev };
 
-      if (selectedCount === totalCountries) {
-        Object.keys(data).forEach((continent) => {
-          delete newSelected[continent];
-        });
+      if (activeTab === 'All') {
+        // Handle "All" tab
+        if (selectedCount === totalCountries) {
+          // Deselect all countries
+          Object.keys(data).forEach((continent) => {
+            delete newSelected[continent];
+          });
+        } else {
+          // Select all countries
+          Object.entries(data).forEach(([continent, countryList]) => {
+            newSelected[continent] = new Set(countryList);
+          });
+        }
       } else {
-        Object.entries(data).forEach(([continent, countryList]) => {
-          newSelected[continent] = new Set(countryList);
-        });
+        // Handle specific continent tab
+        const currentTabCountries = data[activeTab];
+        const isAllSelected =
+          newSelected[activeTab]?.size === currentTabCountries.length;
+
+        if (isAllSelected) {
+          // Deselect all countries in the active tab
+          delete newSelected[activeTab];
+        } else {
+          // Select all countries in the active tab
+          newSelected[activeTab] = new Set(currentTabCountries);
+        }
       }
 
       return newSelected;
