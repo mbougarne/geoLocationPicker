@@ -30,12 +30,10 @@ export default [
       ...reactHooksPlugin.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
       ...prettierConfig.rules,
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-vars': ['error'],
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
     },
   },
 ];

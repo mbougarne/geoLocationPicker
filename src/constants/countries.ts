@@ -207,7 +207,7 @@ export const continentsData: Record<string, string[]> = {
     'Tuvalu',
     'Vanuatu',
   ],
-};
+} as const;
 
 export const getTotalCountries = (): number => {
   return getTotalCountriesPerContinent()['All'];

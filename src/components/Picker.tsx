@@ -1,30 +1,43 @@
 import { useState, useCallback, FC, useEffect, useRef } from 'react';
 
-import { getCountryFlag } from '../helpers';
 import { continentsData as data, getTotalCountries } from '../constants';
 import { ContinentsTabs } from './ContinentsTabs';
+import { TabContent } from './TabContent';
 
-type SelectedCountriesState = Record<string, Set<string>>;
+const allCountries = Object.values(data).flat();
 
 export const GeoLocationPicker: FC = () => {
-  const [selectedCountries, setSelectedCountries] =
-    useState<SelectedCountriesState>({});
+  const [selectedCountries, setSelectedCountries] = useState<
+    Record<string, Set<string>>
+  >({});
   const [activeTab, setActiveTab] = useState('All');
   const totalCountries = getTotalCountries();
   const selectAllCheckboxRef = useRef<HTMLInputElement>(null);
 
-  // Calculate the total number of selected countries across all tabs
-  const getTotalSelectedCountries = useCallback(() => {
-    return Object.values(selectedCountries).reduce(
-      (acc, set) => acc + (set ? set.size : 0),
+  const getSelectionStats = useCallback(() => {
+    const selectedCount = Object.values(selectedCountries).reduce(
+      (a, s) => a + (s ? s.size : 0),
       0
     );
-  }, [selectedCountries]);
-
-  const getSelectionStats = useCallback(() => {
-    const selectedCount = getTotalSelectedCountries();
     return { selectedCount, totalCountries };
-  }, [getTotalSelectedCountries, totalCountries]);
+  }, [totalCountries, selectedCountries]);
+
+  useEffect(() => {
+    if (!selectAllCheckboxRef.current) return;
+
+    const { selectedCount, totalCountries } = getSelectionStats();
+
+    if (selectedCount === totalCountries) {
+      selectAllCheckboxRef.current.checked = true;
+      selectAllCheckboxRef.current.indeterminate = false;
+    } else if (selectedCount === 0) {
+      selectAllCheckboxRef.current.checked = false;
+      selectAllCheckboxRef.current.indeterminate = false;
+    } else {
+      selectAllCheckboxRef.current.checked = false;
+      selectAllCheckboxRef.current.indeterminate = true;
+    }
+  }, [getSelectionStats]);
 
   const handleSelectAll = () => {
     const { selectedCount, totalCountries } = getSelectionStats();
@@ -33,12 +46,10 @@ export const GeoLocationPicker: FC = () => {
       const newSelected = { ...prev };
 
       if (selectedCount === totalCountries) {
-        // If all countries are selected, deselect all
         Object.keys(data).forEach((continent) => {
           delete newSelected[continent];
         });
       } else {
-        // If not all countries are selected, select all
         Object.entries(data).forEach(([continent, countryList]) => {
           newSelected[continent] = new Set(countryList);
         });
@@ -48,7 +59,7 @@ export const GeoLocationPicker: FC = () => {
     });
   };
 
-  const handleCountryChange = (continent: string, country: string) => {
+  const onCountryChange = (continent: string, country: string) => {
     setSelectedCountries((prev) => {
       const newSelected = new Set(prev[continent] || []);
       if (newSelected.has(country)) {
@@ -66,59 +77,6 @@ export const GeoLocationPicker: FC = () => {
       return updatedSelected;
     });
   };
-
-  const renderCountries = (countries: string[], continent?: string) => {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {countries.map((country) => {
-          // Determine if the country is selected
-          const isSelected = Object.entries(selectedCountries).some(
-            ([cont, selectedSet]) => selectedSet?.has(country)
-          );
-
-          return (
-            <label key={country} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={isSelected}
-                onChange={() => {
-                  const countryContinent = Object.entries(data).find(
-                    ([cont, countryList]) => countryList.includes(country)
-                  )?.[0];
-                  if (countryContinent) {
-                    handleCountryChange(countryContinent, country);
-                  }
-                }}
-                className="form-checkbox h-5 w-5 text-blue-600"
-              />
-              <span className="flex items-center">
-                <span className="mr-2">{getCountryFlag(country)}</span>
-                <span>{country}</span>
-              </span>
-            </label>
-          );
-        })}
-      </div>
-    );
-  };
-
-  // Update the Select All checkbox state (checked, unchecked, indeterminate)
-  useEffect(() => {
-    if (!selectAllCheckboxRef.current) return;
-
-    const { selectedCount, totalCountries } = getSelectionStats();
-
-    if (selectedCount === totalCountries) {
-      selectAllCheckboxRef.current.checked = true;
-      selectAllCheckboxRef.current.indeterminate = false;
-    } else if (selectedCount === 0) {
-      selectAllCheckboxRef.current.checked = false;
-      selectAllCheckboxRef.current.indeterminate = false;
-    } else {
-      selectAllCheckboxRef.current.checked = false;
-      selectAllCheckboxRef.current.indeterminate = true;
-    }
-  }, [selectedCountries, getSelectionStats]);
 
   return (
     <div className="p-4 space-y-4">
@@ -141,9 +99,21 @@ export const GeoLocationPicker: FC = () => {
         setActiveTab={setActiveTab}
       />
 
-      {activeTab === 'All'
-        ? renderCountries(Object.values(data).flat())
-        : renderCountries(data[activeTab], activeTab)}
+      {activeTab === 'All' ? (
+        <TabContent
+          data={data}
+          countries={allCountries}
+          selectedCountries={selectedCountries}
+          onCountryChange={onCountryChange}
+        />
+      ) : (
+        <TabContent
+          data={data}
+          countries={data[activeTab]}
+          selectedCountries={selectedCountries}
+          onCountryChange={onCountryChange}
+        />
+      )}
     </div>
   );
 };
