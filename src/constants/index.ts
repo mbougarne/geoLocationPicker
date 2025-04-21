@@ -1,5 +1,6 @@
 export {
   continentsData,
+  countriesData,
   getTotalCountries,
   getTotalCountriesPerContinent,
 } from './countries';

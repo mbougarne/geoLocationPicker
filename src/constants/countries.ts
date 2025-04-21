@@ -226,3 +226,5 @@ export const getTotalCountriesPerContinent = () => {
 
   return continents;
 };
+
+export const countriesData = Object.values(continentsData).flat();

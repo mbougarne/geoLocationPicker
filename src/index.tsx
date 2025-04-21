@@ -1,3 +1,3 @@
 import './styles.css';
 
-export { GeoLocationPicker } from './components';
+export { GeoLocationPicker, SelectCountry } from './components';
