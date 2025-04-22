@@ -1,5 +1,5 @@
 {
-  "name": "geoLocationPicker",
+  "name": "geo-location-picker",
   "version": "1.0.0",
   "description": "A lightweight and accessible React component library for selecting geographic data: countries by continent, country names, and international phone codes. Built with flexibility and styled using Tailwind CSS.",
   "main": "dist/src/index.js",
