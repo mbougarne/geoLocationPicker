@@ -18,6 +18,14 @@
   "keywords": [],
   "author": "Mourad Bougarne <mouradbougarne@gmail.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbougarn/geoLocationPicker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mbougarn/geoLocationPicker/issues"
+  },
+  "homepage": "https://github.com/mbougarn/geoLocationPicker#readme",
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "react": "^19.0.0",
