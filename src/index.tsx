@@ -1,3 +1,7 @@
 import './styles.css';
 
-export { GeoLocationPicker, SelectCountry } from './components';
+export {
+  GeoLocationPicker,
+  SelectCountry,
+  SelectPhoneCode,
+} from './components';
