@@ -219,7 +219,7 @@ export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
       <div
         className={`transition-opacity duration-300 ${isFading ? 'opacity-50' : 'opacity-100'}`}
       >
-        {activeTab === 'All' ? (
+        {activeTab !== 'All' ? (
           <TabContent
             data={data}
             countries={countriesToRender}

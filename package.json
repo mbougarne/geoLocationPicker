@@ -5,6 +5,14 @@
   "main": "dist/src/index.js",
   "module": "dist/src/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/src/index.mjs",
+      "require": "./dist/src/index.js"
+    },
+    "./dist/src/index.css": "./dist/src/index.css"
+  },
   "files": [
     "dist",
     "README.md",
@@ -12,6 +20,7 @@
   ],
   "scripts": {
     "build": "tsup",
+    "dev": "pnpm --filter dev dev",
     "prepare": "husky install",
     "prepublishOnly": "pnpm build"
   },
