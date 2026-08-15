@@ -20,7 +20,10 @@
   ],
   "scripts": {
     "build": "tsup",
+    "check": "pnpm check:repository && pnpm lint && pnpm --filter dev lint && pnpm build && pnpm --filter dev build",
+    "check:repository": "node scripts/check-repository.mjs",
     "dev": "pnpm --filter dev dev",
+    "lint": "eslint src",
     "prepare": "husky install",
     "prepublishOnly": "pnpm build"
   },
@@ -36,6 +39,9 @@
   },
   "homepage": "https://github.com/mbougarn/geoLocationPicker#readme",
   "packageManager": "pnpm@10.6.5",
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
     "react": "^19.0.0",
     "react-country-flag": "^3.1.0",

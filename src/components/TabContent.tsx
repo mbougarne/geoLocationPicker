@@ -16,7 +16,7 @@ export const TabContent: React.FC<Props> = ({
   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2">
     {countries.map((country) => {
       const isSelected = Object.entries(selectedCountries).some(
-        ([_, selectedSet]) => selectedSet?.has(country)
+        ([, selectedSet]) => selectedSet?.has(country)
       );
 
       return (
@@ -26,7 +26,7 @@ export const TabContent: React.FC<Props> = ({
             checked={isSelected}
             onChange={() => {
               const countryContinent = Object.entries(data).find(
-                ([_, countryList]) => countryList.includes(country)
+                ([, countryList]) => countryList.includes(country)
               )?.[0];
               if (countryContinent) {
                 onCountryChange(countryContinent, country);

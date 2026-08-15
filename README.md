@@ -103,6 +103,26 @@ Or extract and customize the styles if you're integrating into a custom Tailwind
 - ARIA roles applied for dropdown inputs
 - Focus ring and hover state styling
 
+## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites, local setup, development commands, and pull request expectations.
+
+Quick start:
+
+```bash
+corepack enable
+pnpm install
+pnpm build
+pnpm --filter dev dev
+```
+
+The demo runs in the `dev/` workspace and consumes the library through the pnpm workspace link. The root `build` command creates the distributable files in `dist/`.
+
+## Project Documentation
+
+- [Contributing and local development](CONTRIBUTING.md)
+- [AI coding rules](docs/AGENTIC_RULES.md)
+
 ---
 
 ## 🪪 License

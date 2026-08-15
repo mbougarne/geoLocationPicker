@@ -1,11 +1,4 @@
-import {
-  FC,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FC, useDeferredValue, useEffect, useRef, useState } from 'react';
 
 import { countriesWithPhoneCode as data } from '../constants';
 import { getCountryFlag } from '../helpers';
