@@ -39,14 +39,20 @@ For library changes, run:
 pnpm check
 ```
 
-The `check` command validates repository policy, lints the library and demo, builds the library, and builds the demo. To run only the demo checks:
+The `check` command validates repository policy, runs the package tests, lints the library tests, and builds the library. The `dev/` demo workspace is not part of the package check. To run only the package tests:
+
+```bash
+pnpm test
+```
+
+Demo checks are optional and can be run separately when changing the local demo:
 
 ```bash
 pnpm --filter dev lint
 pnpm --filter dev build
 ```
 
-There is currently no test runner configured in the repository. Add focused behavioral tests when introducing behavior that can be tested, and do not claim tests passed unless a test command has been added and run.
+Add focused behavioral tests when introducing behavior that can be tested. Package component tests live in `tests/` and use Vitest with Testing Library; the `dev/` workspace remains a local demo and is not part of the package test suite.
 
 ## Making Changes
 
