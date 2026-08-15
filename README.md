@@ -1,5 +1,7 @@
 # 🌍 Geo Location Picker
 
+<video src="./preview.webm" controls muted playsinline width="720"></video>
+
 A lightweight and accessible React component library for selecting geographic data: countries by continent, country names, and international phone codes. Built with flexibility and styled using Tailwind CSS.
 
 ## ✨ Features
