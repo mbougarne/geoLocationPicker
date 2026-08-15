@@ -20,12 +20,13 @@
   ],
   "scripts": {
     "build": "tsup",
-    "check": "pnpm check:repository && pnpm lint && pnpm --filter dev lint && pnpm build && pnpm --filter dev build",
+    "check": "pnpm check:repository && pnpm lint && pnpm test && pnpm build",
     "check:repository": "node scripts/check-repository.mjs",
     "dev": "pnpm --filter dev dev",
-    "lint": "eslint src",
+    "lint": "eslint src tests",
     "prepare": "husky install",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "Mourad Bougarne <mouradbougarne@gmail.com>",
@@ -49,6 +50,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.15",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
@@ -61,12 +64,14 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^8.0.0",
+    "jsdom": "^30.0.1",
     "lint-staged": "^15.5.0",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "tailwindcss": "^4.0.15",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^4.1.10"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
