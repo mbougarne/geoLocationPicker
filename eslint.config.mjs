@@ -10,6 +10,7 @@ export default [
     ignores: ['node_modules/**', 'dist', 'build', 'coverage', '*.config.js'],
   },
   {
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
     },
@@ -32,6 +33,9 @@ export default [
       ...prettierConfig.rules,
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      'react/no-unknown-property': 'off',
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
       'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-vars': ['error'],
     },

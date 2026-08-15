@@ -16,8 +16,6 @@ type Props = {
   onChange?: (selected: Record<string, Set<string>>) => void;
 };
 
-const allCountries = Object.values(continentsData).flat();
-
 export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
   const [countries, setCountries] = useState<string[] | null>(null);
   const [query, setQuery] = useState<string>('');
@@ -219,21 +217,12 @@ export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
       <div
         className={`transition-opacity duration-300 ${isFading ? 'opacity-50' : 'opacity-100'}`}
       >
-        {activeTab !== 'All' ? (
-          <TabContent
-            data={data}
-            countries={countriesToRender}
-            selectedCountries={selectedCountries}
-            onCountryChange={onCountryChange}
-          />
-        ) : (
-          <TabContent
-            data={data}
-            countries={allCountries}
-            selectedCountries={selectedCountries}
-            onCountryChange={onCountryChange}
-          />
-        )}
+        <TabContent
+          data={data}
+          countries={countriesToRender}
+          selectedCountries={selectedCountries}
+          onCountryChange={onCountryChange}
+        />
       </div>
     </div>
   );

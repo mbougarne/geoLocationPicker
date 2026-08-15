@@ -21,11 +21,17 @@ function App() {
   }, [phoneCode]);
 
   return (
-    <>
+    <div style={{
+        padding: '1rem',
+        maxHeight: '95vh',
+        overflow: 'hidden',
+        'backgroundColor':
+        '#f9faf'
+      }}>
       <SelectCountry onSelect={setCountry} />
       <SelectPhoneCode onSelect={setPhoneCode} />
       <GeoLocationPicker onChange={selected => setCountries(selected)}/>
-    </>
+    </div>
   )
 }
 

@@ -1,5 +1,7 @@
 # 🌍 Geo Location Picker
 
+<video src="./preview.webm" controls muted playsinline width="720"></video>
+
 A lightweight and accessible React component library for selecting geographic data: countries by continent, country names, and international phone codes. Built with flexibility and styled using Tailwind CSS.
 
 ## ✨ Features
@@ -102,6 +104,26 @@ Or extract and customize the styles if you're integrating into a custom Tailwind
 - Full keyboard navigation
 - ARIA roles applied for dropdown inputs
 - Focus ring and hover state styling
+
+## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites, local setup, development commands, and pull request expectations.
+
+Quick start:
+
+```bash
+corepack enable
+pnpm install
+pnpm build
+pnpm --filter dev dev
+```
+
+The demo runs in the `dev/` workspace and consumes the library through the pnpm workspace link. The root `build` command creates the distributable files in `dist/`.
+
+## Project Documentation
+
+- [Contributing and local development](CONTRIBUTING.md)
+- [AI coding rules](docs/AGENTIC_RULES.md)
 
 ---
 
