@@ -39,12 +39,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mbougarn/geoLocationPicker.git"
+    "url": "git+https://github.com/mbougarne/geoLocationPicker.git"
   },
   "bugs": {
-    "url": "https://github.com/mbougarn/geoLocationPicker/issues"
+    "url": "https://github.com/mbougarne/geoLocationPicker/issues"
   },
-  "homepage": "https://github.com/mbougarn/geoLocationPicker#readme",
+  "homepage": "https://github.com/mbougarne/geoLocationPicker#readme",
   "packageManager": "pnpm@10.6.5",
   "engines": {
     "node": ">=22"
