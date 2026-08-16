@@ -5,3 +5,5 @@ export {
   SelectCountry,
   SelectPhoneCode,
 } from './components';
+
+export type { StyleOverrides, TCountriesWithPhoneCode } from './types';

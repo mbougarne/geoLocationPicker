@@ -9,14 +9,33 @@ import React, {
 } from 'react';
 
 import { continentsData, getTotalCountries } from '../constants';
+import type { StyleOverrides } from '../types';
 import { ContinentsTabs } from './ContinentsTabs';
 import { TabContent } from './TabContent';
 
-type Props = {
+type Slots =
+  | 'root'
+  | 'searchContainer'
+  | 'searchInput'
+  | 'selectAll'
+  | 'selectAllLabel'
+  | 'content'
+  | 'tabs'
+  | 'activeTab'
+  | 'inactiveTab'
+  | 'countryList'
+  | 'country'
+  | 'selectedCountry';
+
+type Props = StyleOverrides<Slots> & {
   onChange?: (selected: Record<string, Set<string>>) => void;
 };
 
-export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
+export const GeoLocationPicker: FC<Props> = ({
+  onChange,
+  classNames,
+  styles,
+}) => {
   const [countries, setCountries] = useState<string[] | null>(null);
   const [query, setQuery] = useState<string>('');
   const deferredQuery = useDeferredValue(query);
@@ -165,8 +184,14 @@ export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
   }, [activeTab, countries, data]);
 
   return (
-    <div className="p-4 space-y-4">
-      <div className="w-full max-w-full px-4 mx-auto">
+    <div
+      className={`p-4 space-y-4 ${classNames?.root ?? ''}`}
+      style={styles?.root}
+    >
+      <div
+        className={`w-full max-w-full px-4 mx-auto ${classNames?.searchContainer ?? ''}`}
+        style={styles?.searchContainer}
+      >
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
@@ -189,18 +214,23 @@ export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
             type="text"
             id="search-input"
             value={query}
-            className="block w-full py-4 pr-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+            className={`block w-full py-4 pr-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 ${classNames?.searchInput ?? ''}`}
+            style={styles?.searchInput}
             placeholder="Search or filter items..."
             onChange={onSearch}
           />
         </div>
       </div>
-      <label className="flex items-center">
+      <label
+        className={`flex items-center ${classNames?.selectAllLabel ?? ''}`}
+        style={styles?.selectAllLabel}
+      >
         <input
           type="checkbox"
           ref={selectAllCheckboxRef}
           onChange={handleSelectAll}
-          className="form-checkbox h-5 w-5 text-blue-600"
+          className={`form-checkbox h-5 w-5 text-blue-600 ${classNames?.selectAll ?? ''}`}
+          style={styles?.selectAll}
         />
         <strong className="ml-2">
           ({getSelectionStats().selectedCount}/
@@ -212,16 +242,37 @@ export const GeoLocationPicker: FC<Props> = ({ onChange }) => {
         data={data}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        classNames={{
+          root: classNames?.tabs,
+          activeTab: classNames?.activeTab,
+          inactiveTab: classNames?.inactiveTab,
+        }}
+        styles={{
+          root: styles?.tabs,
+          activeTab: styles?.activeTab,
+          inactiveTab: styles?.inactiveTab,
+        }}
       />
 
       <div
-        className={`transition-opacity duration-300 ${isFading ? 'opacity-50' : 'opacity-100'}`}
+        className={`transition-opacity duration-300 ${isFading ? 'opacity-50' : 'opacity-100'} ${classNames?.content ?? ''}`}
+        style={styles?.content}
       >
         <TabContent
           data={data}
           countries={countriesToRender}
           selectedCountries={selectedCountries}
           onCountryChange={onCountryChange}
+          classNames={{
+            root: classNames?.countryList,
+            country: classNames?.country,
+            selectedCountry: classNames?.selectedCountry,
+          }}
+          styles={{
+            root: styles?.countryList,
+            country: styles?.country,
+            selectedCountry: styles?.selectedCountry,
+          }}
         />
       </div>
     </div>
