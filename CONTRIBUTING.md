@@ -52,6 +52,22 @@ pnpm --filter dev lint
 pnpm --filter dev build
 ```
 
+The React Native source is part of the root package and is exported through `geo-location-picker/native`. Validate the native entry with:
+
+```bash
+pnpm lint
+pnpm build
+```
+
+The root build emits both the web entry and the native entry. React Native still requires a native host application such as Expo or React Native CLI for runtime testing, so the native components are intentionally not covered by the Vitest suite; verify native changes in the Expo playground instead.
+
+Run the Expo playground with:
+
+```bash
+pnpm --filter native-dev typecheck
+pnpm --filter native-dev start
+```
+
 Add focused behavioral tests when introducing behavior that can be tested. Package component tests live in `tests/` and use Vitest with Testing Library; the `dev/` workspace remains a local demo and is not part of the package test suite.
 
 ## Making Changes

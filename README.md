@@ -175,6 +175,8 @@ The demo runs in the `dev/` workspace and consumes the library through the pnpm 
 
 - [Contributing and local development](CONTRIBUTING.md)
 - [AI coding rules](docs/AGENTIC_RULES.md)
+- [React Native package](native/README.md)
+- [React Native development app](native-dev/README.md)
 
 ---
 

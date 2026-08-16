@@ -1,0 +1,5 @@
+{
+  "main": "../dist/native/src/index.js",
+  "module": "../dist/native/src/index.mjs",
+  "types": "../dist/native/src/index.d.ts"
+}

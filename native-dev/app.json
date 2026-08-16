@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Geo Location Picker Native",
+    "slug": "geo-location-picker-native-dev",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true
+  }
+}
