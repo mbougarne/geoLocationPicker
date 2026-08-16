@@ -1,3 +1,5 @@
 packages:
   - '.'
   - 'dev'
+  - 'native'
+  - 'native-dev'

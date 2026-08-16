@@ -52,6 +52,22 @@ pnpm --filter dev lint
 pnpm --filter dev build
 ```
 
+The React Native package is a separate workspace. Validate its current native selector slice with:
+
+```bash
+pnpm --filter geo-location-picker-native lint
+pnpm --filter geo-location-picker-native build
+```
+
+It is not included in the web package check because React Native requires a native host application such as Expo or React Native CLI for runtime testing.
+
+Run the Expo playground with:
+
+```bash
+pnpm --filter native-dev typecheck
+pnpm --filter native-dev start
+```
+
 Add focused behavioral tests when introducing behavior that can be tested. Package component tests live in `tests/` and use Vitest with Testing Library; the `dev/` workspace remains a local demo and is not part of the package test suite.
 
 ## Making Changes
