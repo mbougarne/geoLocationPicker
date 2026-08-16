@@ -72,7 +72,7 @@ Add focused behavioral tests when introducing behavior that can be tested. Packa
 
 ## Publishing
 
-Publishing is performed by `.github/workflows/publish.yml` using npm Trusted Publishing. Create a version commit and matching tag only after the workflow is merged to `main`:
+Publishing is performed by `.github/workflows/publish.yml` using npm CLI Trusted Publishing. The workflow uses npm CLI 11.5.1 or newer for OIDC authentication; pnpm remains the package manager for installation, checks, and builds. Create a version commit and matching tag only after the workflow is merged to `main`:
 
 ```bash
 pnpm version patch
