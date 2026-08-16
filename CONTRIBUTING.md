@@ -52,14 +52,14 @@ pnpm --filter dev lint
 pnpm --filter dev build
 ```
 
-The React Native package is a separate workspace. Validate its current native selector slice with:
+The React Native source is part of the root package and is exported through `geo-location-picker/native`. Validate the native entry with:
 
 ```bash
-pnpm --filter geo-location-picker-native lint
-pnpm --filter geo-location-picker-native build
+pnpm lint
+pnpm build
 ```
 
-It is not included in the web package check because React Native requires a native host application such as Expo or React Native CLI for runtime testing.
+The root build emits both the web entry and the native entry. React Native still requires a native host application such as Expo or React Native CLI for runtime testing, so the native components are intentionally not covered by the Vitest suite; verify native changes in the Expo playground instead.
 
 Run the Expo playground with:
 

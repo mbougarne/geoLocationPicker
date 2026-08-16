@@ -1,10 +1,10 @@
-# geo-location-picker-native
+# React Native Entry
 
-React Native selectors for countries and international phone codes.
+React Native selectors for countries and international phone codes, exported from the main `geo-location-picker` package.
 
 ## Status
 
-This package is an early native implementation. It provides `GeoLocationPicker`, `SelectCountry`, and `SelectPhoneCode` using React Native primitives. A native example app and runtime test harness will be added in a later step.
+The native entry provides `GeoLocationPicker`, `SelectCountry`, and `SelectPhoneCode` using React Native primitives.
 
 ## Usage
 
@@ -13,7 +13,7 @@ import {
   GeoLocationPicker,
   SelectCountry,
   SelectPhoneCode,
-} from 'geo-location-picker-native';
+} from 'geo-location-picker/native';
 
 <SelectCountry
   onSelect={(country) => console.log(country)}
@@ -34,4 +34,4 @@ import {
 />
 ```
 
-The package uses `StyleSheet`-compatible `styles` slots instead of web Tailwind classes. Country rows render Unicode flags from the shared ISO country-code map and support the `flag` style slot. `react` and `react-native` are peer dependencies supplied by the consuming app.
+The native entry uses `StyleSheet`-compatible `styles` slots instead of web Tailwind classes. Country rows render Unicode flags from the shared ISO country-code map and support the `flag` style slot. `react` and `react-native` are supplied by the consuming app.

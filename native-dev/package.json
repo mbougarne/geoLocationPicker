@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "expo": "^54.0.0",
-    "geo-location-picker-native": "workspace:*",
+    "geo-location-picker": "workspace:*",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "^0.81.4",

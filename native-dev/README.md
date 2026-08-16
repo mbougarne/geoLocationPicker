@@ -1,6 +1,6 @@
 # Native Development App
 
-This Expo app is a local runtime playground for `geo-location-picker-native`. It uses a repository-local entry file so Metro resolves the app correctly in the pnpm workspace.
+This Expo app is a local runtime playground for the `geo-location-picker/native` export. It uses a repository-local entry file so Metro resolves the app correctly in the pnpm workspace.
 
 ## Run
 

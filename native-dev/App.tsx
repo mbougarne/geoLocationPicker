@@ -4,7 +4,7 @@ import {
   GeoLocationPicker,
   SelectCountry,
   SelectPhoneCode,
-} from 'geo-location-picker-native';
+} from 'geo-location-picker/native';
 
 export default function App() {
   const [country, setCountry] = useState('None');

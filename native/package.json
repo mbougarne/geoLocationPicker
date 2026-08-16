@@ -1,38 +1,5 @@
 {
-  "name": "geo-location-picker-native",
-  "version": "0.1.0",
-  "description": "React Native country and phone-code selectors for geo-location-picker.",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "lint": "eslint src",
-    "prepublishOnly": "pnpm build"
-  },
-  "peerDependencies": {
-    "react": ">=18",
-    "react-native": ">=0.75"
-  },
-  "devDependencies": {
-    "@types/react": "^19.0.12",
-    "react": "19.1.0",
-    "react-native": "^0.81.4",
-    "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
-  },
-  "engines": {
-    "node": ">=22"
-  },
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mbougarn/geoLocationPicker.git",
-    "directory": "native"
-  }
+  "main": "../dist/native/src/index.js",
+  "module": "../dist/native/src/index.mjs",
+  "types": "../dist/native/src/index.d.ts"
 }
