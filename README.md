@@ -2,6 +2,9 @@
 
 <img width="3840" height="1800" alt="preview-ezgif com-optimize" src="https://github.com/user-attachments/assets/df27ef5e-b187-42ff-80da-aca570d93624" />
 
+<img width="724" height="1658" alt="phone" src="https://github.com/user-attachments/assets/a79692d2-9eb4-47b8-8bd1-779ce7498330" />
+
+
 A lightweight and accessible React component library for selecting geographic data: countries by continent, country names, and international phone codes. Built with flexibility and styled using Tailwind CSS.
 
 ## ✨ Features
