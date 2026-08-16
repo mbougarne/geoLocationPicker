@@ -10,6 +10,23 @@ import { describe, expect, it, vi } from 'vitest';
 import { SelectCountry } from '../src/components/SelectCountry';
 
 describe('Test SelectCountry Component', () => {
+  it('supports class and inline style overrides', () => {
+    const { container } = render(
+      <SelectCountry
+        classNames={{ root: 'custom-root', trigger: 'custom-trigger' }}
+        styles={{ root: { backgroundColor: 'black' } }}
+      />
+    );
+
+    const root = container.firstElementChild;
+    const trigger = screen.getByRole('button', { name: 'Select a country' });
+
+    expect(root).not.toBeNull();
+    expect(root).toHaveClass('custom-root');
+    expect((root as HTMLElement).style.backgroundColor).toBe('black');
+    expect(trigger).toHaveClass('custom-trigger');
+  });
+
   it('filters countries and sets the selected country', async () => {
     const onSelect = vi.fn();
 

@@ -2,9 +2,19 @@ import { FC, useDeferredValue, useEffect, useRef, useState } from 'react';
 
 import { countriesWithPhoneCode as data } from '../constants';
 import { getCountryFlag } from '../helpers';
-import { TCountriesWithPhoneCode } from '../types';
+import type { StyleOverrides, TCountriesWithPhoneCode } from '../types';
 
-type Props = {
+type Slots =
+  | 'root'
+  | 'container'
+  | 'trigger'
+  | 'dropdown'
+  | 'searchInput'
+  | 'list'
+  | 'country'
+  | 'selectedCountry';
+
+type Props = StyleOverrides<Slots> & {
   onSelect?: (country: string) => void;
 };
 
@@ -14,7 +24,11 @@ const splitValue = (value: string): [string, string] | null => {
   return [first, second];
 };
 
-export const SelectPhoneCode: FC<Props> = ({ onSelect }) => {
+export const SelectPhoneCode: FC<Props> = ({
+  onSelect,
+  classNames,
+  styles,
+}) => {
   const [countries, setCountries] = useState<TCountriesWithPhoneCode[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedCountry, setSelectedCountry] =
@@ -83,33 +97,51 @@ export const SelectPhoneCode: FC<Props> = ({ onSelect }) => {
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <div className="w-full max-w-full px-4 mx-auto">
+    <div
+      className={`p-4 space-y-4 ${classNames?.root ?? ''}`}
+      style={styles?.root}
+    >
+      <div
+        className={`w-full max-w-full px-4 mx-auto ${classNames?.container ?? ''}`}
+        style={styles?.container}
+      >
         <div ref={dropdownRef} className="relative">
           <button
-            className="w-full text-left pl-3 pr-10 py-2 border cursor-pointer border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500 text-sm bg-white"
+            className={`w-full text-left pl-3 pr-10 py-2 border cursor-pointer border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500 text-sm bg-white ${classNames?.trigger ?? ''}`}
+            style={styles?.trigger}
             onClick={handleToggleDropdown}
           >
             {selectedCountry}
           </button>
 
           {isOpen && (
-            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
+            <div
+              className={`absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg ${classNames?.dropdown ?? ''}`}
+              style={styles?.dropdown}
+            >
               <input
                 role="combobox"
                 type="text"
                 placeholder="Search..."
-                className="w-full px-3 py-2 border-b border-gray-200 focus:outline-none text-sm"
+                className={`w-full px-3 py-2 border-b border-gray-200 focus:outline-none text-sm ${classNames?.searchInput ?? ''}`}
+                style={styles?.searchInput}
                 onChange={onSearch}
               />
               <ul
                 role="listbox"
-                className="max-h-60 overflow-auto text-sm text-gray-700"
+                className={`max-h-60 overflow-auto text-sm text-gray-700 ${classNames?.list ?? ''}`}
+                style={styles?.list}
               >
                 {countries.map((country) => (
                   <label
                     key={country.code}
-                    className={`flex items-center px-3 py-2 cursor-pointer hover:bg-violet-100 hover:text-gray-700 rounded ${(selectedCountry === country.name || selectedCountry === country.mobileCode) && 'bg-violet-400 text-white'}`}
+                    className={`flex items-center px-3 py-2 cursor-pointer hover:bg-violet-100 hover:text-gray-700 rounded ${selectedCountry === country.name || selectedCountry === country.mobileCode ? `bg-violet-400 text-white ${classNames?.selectedCountry ?? ''}` : (classNames?.country ?? '')}`}
+                    style={
+                      selectedCountry === country.name ||
+                      selectedCountry === country.mobileCode
+                        ? styles?.selectedCountry
+                        : styles?.country
+                    }
                   >
                     <input
                       type="radio"

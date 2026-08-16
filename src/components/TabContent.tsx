@@ -1,6 +1,9 @@
 import { getCountryFlag } from '../helpers';
+import type { StyleOverrides } from '../types';
 
-type Props = {
+type Slots = 'root' | 'country' | 'selectedCountry';
+
+type Props = StyleOverrides<Slots> & {
   data: Record<string, string[]>;
   countries: string[];
   selectedCountries: Record<string, Set<string>>;
@@ -12,15 +15,24 @@ export const TabContent: React.FC<Props> = ({
   countries,
   selectedCountries,
   onCountryChange,
+  classNames,
+  styles,
 }) => (
-  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2">
+  <div
+    className={`grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2 ${classNames?.root ?? ''}`}
+    style={styles?.root}
+  >
     {countries.map((country) => {
       const isSelected = Object.entries(selectedCountries).some(
         ([, selectedSet]) => selectedSet?.has(country)
       );
 
       return (
-        <label key={country} className="flex items-center space-x-2">
+        <label
+          key={country}
+          className={`flex items-center space-x-2 ${isSelected ? (classNames?.selectedCountry ?? '') : (classNames?.country ?? '')}`}
+          style={isSelected ? styles?.selectedCountry : styles?.country}
+        >
           <input
             type="checkbox"
             checked={isSelected}
