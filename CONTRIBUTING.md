@@ -70,6 +70,17 @@ Add focused behavioral tests when introducing behavior that can be tested. Packa
 - Keep unrelated refactors out of the pull request.
 - Do not commit generated `dist/` output unless the project maintainers request it.
 
+## Publishing
+
+Publishing is performed by `.github/workflows/publish.yml` using npm Trusted Publishing. Create a version commit and matching tag only after the workflow is merged to `main`:
+
+```bash
+pnpm version patch
+git push origin main --follow-tags
+```
+
+The tag must match the package version exactly, for example `package.json` version `1.0.3` requires tag `v1.0.3`. The workflow runs `pnpm check` before publishing. Existing tags created before the workflow was added do not trigger it retroactively.
+
 ## AI-Assisted Changes
 
 All coding agents must follow [AGENTS.md](AGENTS.md) and the detailed rules in [docs/AGENTIC_RULES.md](docs/AGENTIC_RULES.md). These rules apply to human-authored and AI-assisted changes alike.
