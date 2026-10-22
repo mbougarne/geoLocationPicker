@@ -20,12 +20,12 @@ if (majorVersion < 22) {
 }
 
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
-if (packageJson.engines?.node !== '>=22') {
-  throw new Error('package.json must require Node.js >=22');
+if (packageJson.engines?.node !== '>=22.23.4') {
+  throw new Error('package.json must require Node.js >=22.23.4');
 }
 
-if (readFileSync('.nvmrc', 'utf8').trim() !== '22') {
-  throw new Error('.nvmrc must specify Node.js 22');
+if (readFileSync('.nvmrc', 'utf8').trim() !== '22.23.4') {
+  throw new Error('.nvmrc must specify Node.js 22.23.4');
 }
 
 console.log('Repository policy checks passed.');

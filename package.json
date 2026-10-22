@@ -47,7 +47,7 @@
   "homepage": "https://github.com/mbougarne/geoLocationPicker#readme",
   "packageManager": "pnpm@10.6.5",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.23.4"
   },
   "dependencies": {
     "react-country-flag": "^3.1.0"
