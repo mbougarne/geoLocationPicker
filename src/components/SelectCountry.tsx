@@ -1,150 +1,132 @@
-import { FC, useDeferredValue, useEffect, useRef, useState } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
 
-import { countriesData as data } from '../constants';
-import { getCountryFlag } from '../helpers';
-import type { StyleOverrides } from '../types';
+import { countriesData, countryToCodeMap } from '../constants';
+import { getFlagEmoji } from '../helpers';
+import type {
+  StyleOverrides,
+  TCountrySelection,
+  TSelectLabels,
+} from '../types';
+import {
+  SelectDropdown,
+  SelectDropdownSharedProps,
+  SelectDropdownSlots,
+  TDropdownOption,
+} from './SelectDropdown';
 
-type Slots =
-  | 'root'
-  | 'container'
-  | 'trigger'
-  | 'dropdown'
-  | 'searchInput'
-  | 'list'
-  | 'country'
-  | 'selectedCountry';
-
-type Props = StyleOverrides<Slots> & {
-  onSelect?: (country: string) => void;
+const defaultLabels: TSelectLabels = {
+  placeholder: 'Select a country',
+  searchPlaceholder: 'Search...',
+  noResults: 'No results found',
+  clear: 'Clear selection',
 };
 
-export const SelectCountry: FC<Props> = ({ onSelect, classNames, styles }) => {
-  const [countries, setCountries] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedCountry, setSelectedCountry] =
-    useState<string>('Select a country');
-  const [query, setQuery] = useState<string>('');
-  const deferredQuery = useDeferredValue(query);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+type Props = StyleOverrides<SelectDropdownSlots> &
+  SelectDropdownSharedProps & {
+    /** Controlled value: an ISO 3166-1 alpha-2 code (e.g. 'MA'); null clears. */
+    value?: string | null;
+    /** Uncontrolled initial value: an ISO code. English names are also accepted. */
+    defaultValue?: string;
+    /** Called with the canonical English country name (kept for backwards compatibility). */
+    onSelect?: (country: string) => void;
+    /** Called with structured selection metadata, or null when cleared. */
+    onChange?: (selection: TCountrySelection | null) => void;
+    /** Localized display name for a country; searching matches it too. */
+    getCountryName?: (code: string, name: string) => string;
+    /** Custom flag renderer, e.g. to use SVG flag assets. Defaults to emoji. */
+    renderFlag?: (code: string, name: string) => ReactNode;
+    /** Show a clear button when a country is selected. */
+    clearable?: boolean;
+    labels?: Partial<TSelectLabels>;
+  };
 
-  useEffect(() => {
-    if (deferredQuery) {
-      setCountries(() =>
-        data.filter((c) =>
-          c.toLowerCase().includes(deferredQuery.toLowerCase())
-        )
-      );
-    } else {
-      setCountries(data);
-    }
-  }, [deferredQuery, data]);
+type CountryOption = TDropdownOption & TCountrySelection;
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
+const isoCodes = new Set(Object.values(countryToCodeMap));
+
+const resolveCode = (value: string | null | undefined): string | null => {
+  if (!value) return null;
+  const upper = value.toUpperCase();
+  if (isoCodes.has(upper)) return upper;
+  return countryToCodeMap[value] ?? null;
+};
+
+export const SelectCountry: FC<Props> = ({
+  value,
+  defaultValue,
+  onSelect,
+  onChange,
+  getCountryName,
+  renderFlag,
+  clearable,
+  labels,
+  unstyled,
+  classNames,
+  styles,
+  ...shared
+}) => {
+  const isControlled = value !== undefined;
+  const [internalCode, setInternalCode] = useState<string | null>(() =>
+    resolveCode(defaultValue)
+  );
+  const selectedCode = isControlled ? resolveCode(value) : internalCode;
+
+  const options = useMemo<CountryOption[]>(
+    () =>
+      countriesData.map((name) => {
+        const code = countryToCodeMap[name];
+        const displayName = getCountryName?.(code, name) ?? name;
+        const flag = (
+          <span className={unstyled ? undefined : 'me-2'} aria-hidden="true">
+            {renderFlag ? renderFlag(code, name) : getFlagEmoji(code)}
+          </span>
+        );
+        const content = (
+          <span className={unstyled ? undefined : 'flex items-center'}>
+            {flag}
+            <span>{displayName}</span>
+          </span>
+        );
+
+        return {
+          code,
+          name,
+          displayName,
+          searchText: `${displayName} ${name} ${code}`.toLowerCase(),
+          triggerContent: content,
+          optionContent: content,
+        };
+      }),
+    [getCountryName, renderFlag, unstyled]
+  );
+
+  const handleSelect = (option: TDropdownOption) => {
+    const { code, name, displayName } = option as CountryOption;
+    if (!isControlled) setInternalCode(code);
+    onSelect?.(name);
+    onChange?.({ code, name, displayName });
+  };
+
+  const handleClear = clearable
+    ? () => {
+        if (!isControlled) setInternalCode(null);
+        onChange?.(null);
       }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
-
-  const handleToggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-    if (query) {
-      setQuery('');
-    }
-  };
-
-  const onCountrySelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    if (value) {
-      onSelect?.(value);
-      setIsOpen(false);
-      setSelectedCountry(value);
-    }
-  };
-
-  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
-    setQuery(() => value);
-  };
+    : undefined;
 
   return (
-    <div
-      className={`p-4 space-y-4 ${classNames?.root ?? ''}`}
-      style={styles?.root}
-    >
-      <div
-        className={`w-full max-w-full px-4 mx-auto ${classNames?.container ?? ''}`}
-        style={styles?.container}
-      >
-        <div ref={dropdownRef} className="relative">
-          <button
-            className={`w-full text-left pl-3 pr-10 py-2 border cursor-pointer border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500 text-sm bg-white ${classNames?.trigger ?? ''}`}
-            style={styles?.trigger}
-            onClick={handleToggleDropdown}
-          >
-            {selectedCountry}
-          </button>
-
-          {isOpen && (
-            <div
-              className={`absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg ${classNames?.dropdown ?? ''}`}
-              style={styles?.dropdown}
-            >
-              <input
-                role="combobox"
-                type="text"
-                placeholder="Search..."
-                className={`w-full px-3 py-2 border-b border-gray-200 focus:outline-none text-sm ${classNames?.searchInput ?? ''}`}
-                style={styles?.searchInput}
-                onChange={onSearch}
-              />
-              <ul
-                role="listbox"
-                className={`max-h-60 overflow-auto text-sm text-gray-700 ${classNames?.list ?? ''}`}
-                style={styles?.list}
-              >
-                {countries.map((country) => (
-                  <label
-                    key={country}
-                    className={`flex items-center px-3 py-2 cursor-pointer hover:bg-violet-100 hover:text-gray-700 rounded ${selectedCountry === country ? `bg-violet-400 text-white ${classNames?.selectedCountry ?? ''}` : (classNames?.country ?? '')}`}
-                    style={
-                      selectedCountry === country
-                        ? styles?.selectedCountry
-                        : styles?.country
-                    }
-                  >
-                    <input
-                      type="radio"
-                      name="country"
-                      value={country}
-                      className="hidden"
-                      onChange={onCountrySelected}
-                    />
-                    <span className="flex items-center">
-                      <span className="mr-2">{getCountryFlag(country)}</span>
-                      <span>{country}</span>
-                    </span>
-                  </label>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <SelectDropdown
+      options={options}
+      selectedCode={selectedCode}
+      onSelectOption={handleSelect}
+      onClear={handleClear}
+      labels={{ ...defaultLabels, ...labels }}
+      formValue={selectedCode ?? ''}
+      unstyled={unstyled}
+      classNames={classNames}
+      styles={styles}
+      {...shared}
+    />
   );
 };
 

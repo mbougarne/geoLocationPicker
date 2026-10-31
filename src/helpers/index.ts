@@ -1,1 +1,1 @@
-export { getCountryFlag } from './getCountryFlag';
+export { getCountryFlag, getFlagEmoji } from './getCountryFlag';

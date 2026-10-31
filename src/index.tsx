@@ -6,4 +6,12 @@ export {
   SelectPhoneCode,
 } from './components';
 
-export type { StyleOverrides, TCountriesWithPhoneCode } from './types';
+export { getFlagEmoji } from './helpers';
+
+export type {
+  StyleOverrides,
+  TCountriesWithPhoneCode,
+  TCountrySelection,
+  TPhoneCodeSelection,
+  TSelectLabels,
+} from './types';

@@ -1,1 +1,5 @@
-@import "tailwindcss";
+/* Theme variables and utilities only: no Tailwind preflight, so importing
+   this file never resets the consuming application's global styles. */
+@layer theme, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
